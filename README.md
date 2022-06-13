@@ -9,20 +9,26 @@ cd ~/github/docker
 sed "s/PASSWORD_FILE/$(cat ~/password)/g" template.yml > compose.yml
 ```
 
-2. Build all containters or one of them.
+2. Copy the gcloud service account key to the r sub-folder.
+
+```Shell
+cp ~/key-gcloud.json r
+```
+
+3. Build all containters or one of them.
 
 ```Shell
 docker compose build
 docker compose build python
 ```
 
-3. Run a container for once.
+4. Run a container for once.
 
 ```Shell
 docker compose run --rm --service-ports python # Replace python with r, julia, psql or mysql
 ```
 
-4. Build and start all containers without auto-removal on exit.
+5. Build and start all containers without auto-removal on exit.
 
 ```Shell
 docker compose up
