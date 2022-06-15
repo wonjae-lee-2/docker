@@ -64,3 +64,19 @@ docker compose exec -u postgres psql bash
 docker compose exec mysql bash
 # Use the username 'root' and the password from 'PASSWORD_FILE' to connect to the database remotely.
 ```
+
+## Run Spkarlyr inside the R container.
+
+Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly. The container's `.profile` sets up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder.
+
+## Run Julia in the kubernetes cluster.
+
+1. Run `julia-push.sh` to re-tag and push the Julia image to the Google Cloud.
+
+2. Check the image in the `julia-pod.yml` matches the pushed image.
+
+3. Press `shift` + `` ` `` + `c` to forward the port of the local machine to the virtual machine.
+
+4. Run `julia-kube.sh` to run, sync with and attach to the julia container.
+
+5. Copy the token or secret dispalyed in the container and go to `localhost:8888` in the browser of the local machine.

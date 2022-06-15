@@ -2,9 +2,10 @@
 
 FROM julia:1.7.3
 
-WORKDIR /root
+WORKDIR /home
 
 COPY requirements.jl requirements.jl
+COPY jupyter.sh jupyter.sh
 COPY pluto.sh pluto.sh
 RUN julia requirements.jl
 

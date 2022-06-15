@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: julia
+  labels:
+    name: julia
+spec:
+  containers:
+  - name: julia
+    image: us-central1-docker.pkg.dev/project-lee-1/docker/julia:1.7.3
+    resources:
+      limits:
+        memory: "16G"
+        cpu: "1.5"
+    ports:
+      - containerPort: 8888
+      - containerPort: 1234
+    command: ["bash"]
+    stdin: true
+    tty: true
+  serviceAccountName: admin
+  restartPolicy: Never
