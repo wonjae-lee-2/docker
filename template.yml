@@ -1,7 +1,7 @@
 name: docker
 services:
   python:
-    image: lee/python:3.10.5
+    image: docker/python:3.10.5
     build: ./python
     ports: 
       - "8888:8888"
@@ -11,7 +11,7 @@ services:
         source: /home/ubuntu/github
         target: /root/github
   r:
-    image: lee/r:4.2.0
+    image: docker/r:4.2.0
     build: ./r
     ports: 
       - "8787:8787"
@@ -24,7 +24,7 @@ services:
         source: /home/ubuntu/keys
         target: /home/rstudio/keys
   julia:
-    image: lee/julia:1.7.3
+    image: docker/julia:1.7.3
     build: ./julia
     ports: 
       - "8888:8888"
@@ -34,7 +34,7 @@ services:
         source: /home/ubuntu/github
         target: /root/github
   psql:
-    image: postgres:14.3
+    image: postgres:14.4
     ports:
       - "5432:5432"
     volumes:

@@ -5,8 +5,8 @@ FROM rocker/rstudio:4.2.0
 ARG HOME=/home/rstudio
 ARG SPARK_VERSION=3.2.1
 ARG SPARK_FOLDER=/opt/spark-$SPARK_VERSION
-ARG GCLOUD_VERSION=389.0.0
-ARG GCLOUD_FOLDER=$HOME/gcloud-$GCLOUD_VERSION
+ARG GCLOUD_VERSION=390.0.0
+ARG GCLOUD_FOLDER=$HOME/gcloud
 
 WORKDIR $HOME
 
@@ -33,7 +33,7 @@ RUN apt update; \
     su - rstudio -c "$GCLOUD_FOLDER/bin/gcloud components install kubectl --quiet"; \
     ln -fs $GCLOUD_FOLDER/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-$GCLOUD_VERSION-linux-x86_64.tar.gz; \
-    echo "bash ~/gcloud-auth.sh" >> /home/rstudio/.profile
+    echo "bash ~/gcloud-auth.sh" >> $HOME/.profile
 
 EXPOSE 8787 4040
 
