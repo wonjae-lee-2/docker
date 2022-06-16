@@ -18,8 +18,8 @@ cp ~/key-gcloud.json r
 3. Build all containters or one of them.
 
 ```Shell
-docker compose build
-docker compose build python
+docker compose build --no-cache
+docker compose build --no-cache python
 ```
 
 4. Run a container for once.
@@ -69,14 +69,18 @@ docker compose exec mysql bash
 
 Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly. The container's `.profile` sets up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder.
 
-## Run Julia in the kubernetes cluster.
+## Run Julia Jupyter Lab in the kubernetes cluster.
 
 1. Run `julia-push.sh` to re-tag and push the Julia image to the Google Cloud.
 
 2. Check the image in the `julia-pod.yml` matches the pushed image.
 
-3. Press `shift` + `` ` `` + `c` to forward the port of the local machine to the virtual machine.
+3. Run `julia-kube.sh` to run and sync with the julia container.
 
-4. Run `julia-kube.sh` to run, sync with and attach to the julia container.
+4. Copy the external IP address of the node and the token dispalyed in the container log.
 
-5. Copy the token or secret dispalyed in the container and go to `localhost:8888` in the browser of the local machine.
+5. Go to `<public-node-ip>:<node-port>` in the browser of the local machine. (The node port is set to 31234 in the `julia-service.yml`.)
+
+6. Enter the token from the container log.
+
+7. Pluto cannot add worker procedures, so there is no point in running it in the Kubernetes cluster.

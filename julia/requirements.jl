@@ -9,12 +9,12 @@ Pkg.add([
     (name = "IJulia", version = "1.23.3"), # https://juliahub.com/ui/Packages/IJulia/nfu7T/
     (name = "K8sClusterManagers", version = "0.1.3"), # https://juliahub.com/ui/Packages/K8sClusterManagers/Vv6vo/
     (name = "LibPQ", version = "1.13.0"), # https://juliahub.com/ui/Packages/LibPQ/LeQQU/
-    (name = "LinRegOutliers", version = "0.8.11"), # https://juliahub.com/ui/Packages/LinRegOutliers/LANxR/
+    (name = "LinRegOutliers", version = "0.8.12"), # https://juliahub.com/ui/Packages/LinRegOutliers/LANxR/
     (name = "Loess", version = "0.5.4"), # https://juliahub.com/ui/Packages/Loess/TysgR/
     (name = "MLJ", version = "0.18.2"), # https://juliahub.com/ui/Packages/MLJ/rAU56/
     (name = "MLJLinearModels", version = "0.6.3"), # https://juliahub.com/ui/Packages/MLJLinearModels/FBSRA/
-    (name = "Plots", version = "1.29.0"), # https://juliahub.com/ui/Packages/Plots/ld3vC/
-    (name = "Pluto", version = "0.19.5"), # https://juliahub.com/ui/Packages/Pluto/OJqMt/
+    (name = "Plots", version = "1.30.0"), # https://juliahub.com/ui/Packages/Plots/ld3vC/
+    (name = "Pluto", version = "0.19.8"), # https://juliahub.com/ui/Packages/Pluto/OJqMt/
     (name = "StatsPlots", version = "0.14.34"), # https://juliahub.com/ui/Packages/StatsPlots/SiylL/
     (name = "XLSX", version = "0.7.10") # https://juliahub.com/ui/Packages/XLSX/gPxqz/
 ])

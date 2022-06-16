@@ -19,16 +19,16 @@ for (x in core_tidyverse) {
 core_tidymodels <- list( # https://tidymodels.tidymodels.org/
     c("tidymodels", "0.2.0"), # https://cloud.r-project.org/web/packages/tidymodels/index.html
     c("broom", "0.8.0"), # https://cloud.r-project.org/web/packages/broom/index.html
-    c("dials", "0.1.1"), # https://cloud.r-project.org/web/packages/dials/index.html
-    c("infer", "1.0.0"), # https://cloud.r-project.org/web/packages/infer/index.html
+    c("dials", "1.0.0"), # https://cloud.r-project.org/web/packages/dials/index.html
+    c("infer", "1.0.2"), # https://cloud.r-project.org/web/packages/infer/index.html
     c("modeldata", "0.1.1"), # https://cloud.r-project.org/web/packages/modeldata/index.html
-    c("parsnip", "0.2.1"), # https://cloud.r-project.org/web/packages/parsnip/index.html
+    c("parsnip", "1.0.0"), # https://cloud.r-project.org/web/packages/parsnip/index.html
     c("recipes", "0.2.0"), # https://cloud.r-project.org/web/packages/recipes/index.html
     c("rsample", "0.1.1"), # https://cloud.r-project.org/web/packages/rsample/index.html
     c("tune", "0.2.0"), # https://cloud.r-project.org/web/packages/tune/index.html
     c("workflows", "0.2.6"), # https://cloud.r-project.org/web/packages/workflows/index.html
     c("workflowsets", "0.2.1"), # https://cloud.r-project.org/web/packages/workflowsets/index.html
-    c("yardstick", "0.0.9") # https://cloud.r-project.org/web/packages/yardstick/index.html
+    c("yardstick", "1.0.0") # https://cloud.r-project.org/web/packages/yardstick/index.html
 )
 for (x in core_tidymodels) {
     install_version(x[1], x[2], upgrade = "never", repo = "https://cloud.r-project.org")
@@ -43,7 +43,7 @@ other_packages <- list(
     c("klaR", "1.7-0"), # https://cloud.r-project.org/web/packages/klaR/index.html
     c("leaps", "3.1"), # https://cloud.r-project.org/web/packages/leaps/index.html
     c("patchwork", "1.1.1"), # https://cloud.r-project.org/web/packages/patchwork/index.html
-    c("poissonreg", "0.2.0"), # https://cloud.r-project.org/web/packages/poissonreg/index.html
+    c("poissonreg", "1.0.0"), # https://cloud.r-project.org/web/packages/poissonreg/index.html
     c("RPostgres", "1.4.4"), # https://cloud.r-project.org/web/packages/RPostgres/index.html
     c("readxl", "1.4.0"), # https://cloud.r-project.org/web/packages/readxl/index.html
     c("sparklyr", "1.7.7") # https://cloud.r-project.org/web/packages/sparklyr/index.html
