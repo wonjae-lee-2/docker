@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: julia
-    image: us-central1-docker.pkg.dev/project-lee-1/lee/julia:1.7.3
+    image: us-central1-docker.pkg.dev/project-lee-1/docker/julia:1.7.3
     resources:
       limits:
         memory: "16G"
