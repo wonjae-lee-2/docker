@@ -12,3 +12,6 @@ gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file=$KEY_FILE --pro
 
 # Configure kubectl command line access
 gcloud container clusters get-credentials $CLUSTER_NAME --zone $CLUSTER_ZONE --project $PROJECT_ID
+
+# Set the namespace of the current context.
+kubectl config set-context --current --namespace=lee
