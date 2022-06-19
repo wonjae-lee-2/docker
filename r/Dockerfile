@@ -10,8 +10,7 @@ ARG GCLOUD_FOLDER=$HOME/gcloud
 
 WORKDIR $HOME
 
-COPY requirements.r requirements.r
-COPY gcloud-auth.sh gcloud-auth.sh
+COPY renv.r renv.r
 
 RUN apt update; \
     apt install -y --no-install-recommends \
@@ -19,7 +18,7 @@ RUN apt update; \
         libpq-dev \
         libssl-dev  \
         libxml2-dev; \
-    su - rstudio -c "Rscript requirements.r"; \
+    su - rstudio -c "Rscript renv.r"; \
     apt install -y --no-install-recommends openjdk-11-jre; \
     wget https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.2.tgz; \
     mkdir $SPARK_FOLDER; \
@@ -33,8 +32,15 @@ RUN apt update; \
     su - rstudio -c "$GCLOUD_FOLDER/bin/gcloud components install kubectl --quiet"; \
     ln -fs $GCLOUD_FOLDER/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-$GCLOUD_VERSION-linux-x86_64.tar.gz; \
-    echo "bash ~/gcloud-auth.sh" >> $HOME/.profile
+    echo ${HOME}/keys/gcloud-auth.sh >> $HOME/.profile
 
-EXPOSE 8787 4040
+COPY renv.lock renv.lock
+COPY .Rprofile .Rprofile
+COPY renv/activate.R renv/activate.R
+COPY renv/settings.dcf renv/settings.dcf
+
+RUN R -e "renv::restore(project = c('$HOME'))"
+
+EXPOSE 8787
 
 CMD ["/init"]

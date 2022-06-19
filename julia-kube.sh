@@ -12,7 +12,7 @@ sleep $INPUT
 kubectl logs julia
 
 # Show the public IP address of the node.
-kubectl get nodes -o wide
+gcloud compute instances list
 
 # Sync the github folder with the container.
 devspace sync --local-path=/home/ubuntu/github --container=julia --container-path=/home/github

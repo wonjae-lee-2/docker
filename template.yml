@@ -5,17 +5,18 @@ services:
     build: ./python
     ports: 
       - "8888:8888"
-      - "8787:8787"
     volumes:
       - type: bind
         source: /home/ubuntu/github
-        target: /root/github
+        target: /home/python/github
+      - type: bind
+        source: /home/ubuntu/keys
+        target: /home/python/keys
   r:
     image: docker/r:4.2.0
     build: ./r
     ports: 
       - "8787:8787"
-      - "4040:4040"
     volumes:
       - type: bind
         source: /home/ubuntu/github
@@ -26,15 +27,14 @@ services:
   julia:
     image: docker/julia:1.7.3
     build: ./julia
-    ports: 
-      - "8888:8888"
+    ports:
       - "1234:1234"
     volumes:
       - type: bind
         source: /home/ubuntu/github
-        target: /root/github
+        target: /home/github
   psql:
-    image: postgres:14.4
+    image: postgres:14.3
     ports:
       - "5432:5432"
     volumes:

@@ -9,23 +9,37 @@ cd ~/github/docker
 sed "s/PASSWORD_FILE/$(cat ~/password)/g" template.yml > compose.yml
 ```
 
-2. Build all containters or one of them.
+2. Build and start all containers or one container in the background.
+
+```Shell
+docker compose up -d
+docker compose up -d python
+```
+
+3. See the log of a running container.
+
+```Shell
+docker logs docker-python-1
+```
+
+4. Stop all running containers and restart a stopped container.
+
+```Shell
+docker stop $(docker ps -q)
+docker start docker-python-1
+```
+
+5. Build all containters or one of them.
 
 ```Shell
 docker compose build --no-cache
 docker compose build --no-cache python
 ```
 
-3. Run a container for once.
+6. Run a container for once.
 
 ```Shell
 docker compose run --rm --service-ports python # Replace python with r, julia, psql or mysql
-```
-
-4. Build and start all containers without auto-removal on exit.
-
-```Shell
-docker compose up
 ```
 
 ## Forward ports through SSH.
@@ -59,9 +73,13 @@ docker compose exec mysql bash
 # Use the username 'root' and the password from 'PASSWORD_FILE' to connect to the database remotely.
 ```
 
+## Run Dask inside the Python container.
+
+
+
 ## Run Spkarlyr inside the R container.
 
-Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly. The container's `.profile` sets up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder.
+Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly. The container's `.profile` runs `~/gcloud-auth.sh` at startup to set up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder and sets the namespace to `lee`.
 
 ## Run Julia Jupyter Lab in the kubernetes cluster.
 
@@ -77,4 +95,5 @@ Sparklyr should use the standard cluster because the connection with the autopil
 
 6. Enter the token from the container log.
 
-7. Pluto cannot add worker procedures, so there is no point in running it in the Kubernetes cluster.
+Pluto cannot add worker procedures, so there is no point in running it in the Kubernetes cluster.
+

@@ -4,9 +4,12 @@ FROM julia:1.7.3
 
 WORKDIR /home
 
-COPY requirements.jl requirements.jl
+COPY Project.toml Project.toml
+COPY Manifest.toml Manifest.toml
+COPY spec-file.txt spec-file.txt
 COPY pluto.sh pluto.sh
-RUN julia requirements.jl
+RUN julia -e 'using Pkg; Pkg.activate("/home"); Pkg.instantiate(); import Conda; Conda.update()'; \
+    /root/.julia/conda/3/bin/conda install -y --file spec-file.txt
 
 EXPOSE 1234
 
