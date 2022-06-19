@@ -54,7 +54,7 @@ docker compose run --rm --service-ports python # Replace python with r, julia, p
 
 ```Shell
 # Type below after you build the Julia image.
-docker compose run --rm --service-ports julia /pluto.sh
+docker compose run --rm --service-ports julia ./pluto.sh
 ```
 
 2. Start a bash shell in the running PostgreSQL container.
