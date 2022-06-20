@@ -42,6 +42,12 @@ docker compose build --no-cache python
 docker compose run --rm --service-ports python # Replace python with r, julia, psql or mysql
 ```
 
+## Update packages and build docker images again.
+
+```Shell
+./update.sh
+```
+
 ## Forward ports through SSH.
 
 1. For the python jupyter lab, press `shift` + `` ` `` + `c` and then type `-L 8888:localhost:8888` to request local forward. Replace the port number `8888` with `8787` or `1234` for the R and Julia containers.
@@ -73,15 +79,13 @@ docker compose exec mysql bash
 # Use the username 'root' and the password from 'PASSWORD_FILE' to connect to the database remotely.
 ```
 
-## Run Dask inside the Python container.
+## Run Dask and Sparklyr remotely on the Kubernetes cluster.
 
+The container user's `.profile` runs `~/gcloud-auth.sh` at startup to set up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder and set the namespace to `cluster`. Use `kubectl port-forward` to connect to the dashboard on the Dask scheduler or Sparklyr driver pod.
 
+Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly. 
 
-## Run Spkarlyr inside the R container.
-
-Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly. The container's `.profile` runs `~/gcloud-auth.sh` at startup to set up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder and sets the namespace to `lee`.
-
-## Run Julia Jupyter Lab in the kubernetes cluster.
+## Run Julia Jupyter Lab inside the kubernetes cluster.
 
 1. Run `julia-push.sh` to re-tag and push the Julia image to the Google Cloud.
 
