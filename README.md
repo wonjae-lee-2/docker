@@ -91,12 +91,16 @@ Sparklyr should use the standard cluster because the connection with the autopil
 
 2. Check the image in the `julia-pod.yml` matches the pushed image.
 
-3. Run `julia-kube.sh` to run and sync with the julia container. (Check the container log for the Jupyter Lab token.)
+3. Type `gcloud container clusters resize cluster-1 --num-nodes=1 --zone=us-central1-c` to scale up the Kubernetes cluster.
 
-4. Open a new terminal and request local forward by pressing shift + ` + c and then -L 1234:localhost:1234.
+4. Run `julia-kube.sh` to run and sync with the julia container. (Check the container log for the Jupyter Lab token.)
 
-5. In the new terminal, run `kubectl port-forward pod/julia 1234:1234`.
+5. Open a new terminal and request local forward by pressing shift + ` + c and then -L 1234:localhost:1234.
 
-6. Go to `localhost:1234` in the browser of the local machine. (Enter the token from the container log.)
+6. In the new terminal, run `kubectl port-forward pod/julia 1234:1234`.
+
+7. Go to `localhost:1234` in the browser of the local machine. (Enter the token from the container log.)
+
+8. After shutting down the Jupyter Lab, run `gcloud container clusters resize cluster-1 --async --num-nodes=0 --zone=us-central1-c` to scale down the cluster.
 
 Pluto does not run as the master and cannot add workers, so there is no point in running it in the Kubernetes cluster.
