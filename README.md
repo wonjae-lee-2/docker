@@ -81,7 +81,7 @@ docker compose exec mysql bash
 
 ## Run Dask and Sparklyr remotely on the Kubernetes cluster.
 
-The container user's `.profile` runs `~/gcloud-auth.sh` at startup to set up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder and set the namespace to `cluster`. Use `kubectl port-forward` to connect to the dashboard on the Dask scheduler or Sparklyr driver pod.
+The container user's `.profile` runs `~/gcloud-auth.sh` at startup to set up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder and set the namespace to `cluster`. Use `kubectl port-forward` to connect to the dashboard on the Dask scheduler service or Sparklyr driver pod.
 
 Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly. 
 
@@ -91,13 +91,12 @@ Sparklyr should use the standard cluster because the connection with the autopil
 
 2. Check the image in the `julia-pod.yml` matches the pushed image.
 
-3. Run `julia-kube.sh` to run and sync with the julia container.
+3. Run `julia-kube.sh` to run and sync with the julia container. (Check the container log for the Jupyter Lab token.)
 
-4. Copy the external IP address of the node and the token dispalyed in the container log.
+4. Open a new terminal and request local forward by pressing shift + ` + c and then -L 1234:localhost:1234.
 
-5. Go to `<public-node-ip>:<node-port>` in the browser of the local machine. (The node port is set to 31234 in the `julia-service.yml`.)
+5. In the new terminal, run `kubectl port-forward pod/julia 1234:1234`.
 
-6. Enter the token from the container log.
+6. Go to `localhost:1234` in the browser of the local machine. (Enter the token from the container log.)
 
-Pluto cannot add worker procedures, so there is no point in running it in the Kubernetes cluster.
-
+Pluto does not run as the master and cannot add workers, so there is no point in running it in the Kubernetes cluster.

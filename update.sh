@@ -16,7 +16,7 @@ docker stop docker-$INPUT-1
 docker rm docker-$INPUT-1
 
 # Remove the image.
-docker rmi $(docker images docker/$INPUT -q)
+docker rmi $(docker images */$INPUT -q)
 
 # Build the image.
 docker compose build --no-cache $INPUT

@@ -11,9 +11,10 @@ RUN useradd -m python
 WORKDIR ${HOME}
 
 COPY requirements.txt requirements.txt
+RUN pip install -U pip setuptools wheel; \
+    pip install -U -r requirements.txt
 
-RUN pip install -r requirements.txt; \
-    wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
+RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
     mkdir ${GCLOUD_FOLDER}; \
     chown python ${GCLOUD_FOLDER}; \
     su - python -c "tar -x -f google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz -C ${GCLOUD_FOLDER} --strip-components=1"; \

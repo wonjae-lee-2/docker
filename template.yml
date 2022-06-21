@@ -32,7 +32,7 @@ services:
     volumes:
       - type: bind
         source: /home/ubuntu/github
-        target: /home/github
+        target: /home/julia/github
   psql:
     image: postgres:14.3
     ports:

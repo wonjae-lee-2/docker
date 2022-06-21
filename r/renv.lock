@@ -11,10 +11,10 @@
   "Packages": {
     "DBI": {
       "Package": "DBI",
-      "Version": "1.1.2",
+      "Version": "1.1.3",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "dcd1743af4336156873e3ce3c950b8b9",
+      "Hash": "b2866e62bab9378c3cc9476a1954226b",
       "Requirements": []
     },
     "DiceDesign": {
@@ -1469,10 +1469,10 @@
     },
     "processx": {
       "Package": "processx",
-      "Version": "3.6.0",
+      "Version": "3.6.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "4acae60adac4791e8c8833d8494f270d",
+      "Hash": "a11891e28c1f1e5ddd773ba1b8c07cf6",
       "Requirements": [
         "R6",
         "ps"
@@ -1538,10 +1538,10 @@
     },
     "ps": {
       "Package": "ps",
-      "Version": "1.7.0",
+      "Version": "1.7.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "eef74b13f32cae6bb0d495e53317c44c",
+      "Hash": "8b93531308c01ad0e56d9eadcc0c4fcd",
       "Requirements": []
     },
     "purrr": {
