@@ -1,9 +1,12 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.10.5
+ARG PYTHON_VERSION
+
+FROM python:${PYTHON_VERSION}
+
+ARG GCLOUD_VERSION
 
 ARG HOME=/home/python
-ARG GCLOUD_VERSION=390.0.0
 ARG GCLOUD_FOLDER=${HOME}/gcloud
 
 RUN useradd -m python
@@ -11,8 +14,8 @@ RUN useradd -m python
 WORKDIR ${HOME}
 
 COPY requirements.txt requirements.txt
-RUN pip install -U pip setuptools wheel; \
-    pip install -U -r requirements.txt
+RUN pip install --no-cache-dir -U pip setuptools wheel; \
+    pip install --no-cache-dir -U -r requirements.txt
 
 RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
     mkdir ${GCLOUD_FOLDER}; \
@@ -29,4 +32,4 @@ USER python
 
 EXPOSE 8888
 
-CMD ["jupyter", "lab", "--allow-root", "--no-browser", "--ip=0.0.0.0", "--port=8888"]
+CMD ["jupyter", "lab", "--no-browser", "--ip=0.0.0.0", "--port=8888"]

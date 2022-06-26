@@ -1,12 +1,15 @@
 # syntax=docker/dockerfile:1
 
-FROM rocker/rstudio:4.2.0
+ARG R_VERSION
+
+FROM rocker/rstudio:${R_VERSION}
+
+ARG GCLOUD_VERSION
+ARG SPARK_VERSION
+ARG JAVA_VERSION
 
 ARG HOME=/home/rstudio
-ARG JAVA_VERSION=11
-ARG SPARK_VERSION=3.3.0
 ARG SPARK_FOLDER=/opt/spark/${SPARK_VERSION}
-ARG GCLOUD_VERSION=390.0.0
 ARG GCLOUD_FOLDER=${HOME}/gcloud
 
 WORKDIR ${HOME}
@@ -27,9 +30,6 @@ RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud
     ln -fs ${GCLOUD_FOLDER}/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
     echo ${HOME}/keys/gcloud-auth.sh >> ${HOME}/.profile
-
-COPY renv.r renv.r
-RUN su - rstudio -c "Rscript renv.r"
 
 COPY .Rprofile .Rprofile
 COPY renv.lock renv.lock

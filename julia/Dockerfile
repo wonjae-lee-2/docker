@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
 
-FROM julia:1.7.3
+ARG JULIA_VERSION
+
+FROM julia:${JULIA_VERSION}
 
 ARG HOME=/home/julia
 
@@ -20,4 +22,4 @@ COPY pluto.sh pluto.sh
 
 EXPOSE 1234
 
-CMD ["/home/julia/.julia/conda/3/bin/jupyter", "lab", "--allow-root", "--no-browser", "--ip=0.0.0.0", "--port=1234"]
+CMD ["/home/julia/.julia/conda/3/bin/jupyter", "lab", "--no-browser", "--ip=0.0.0.0", "--port=1234"]

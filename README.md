@@ -6,7 +6,7 @@
 
 ```Shell
 cd ~/github/docker
-sed "s/PASSWORD_FILE/$(cat ~/password)/g" template.yml > compose.yml
+./generate-compose.sh
 ```
 
 2. Build and start all containers or one container in the background.
@@ -16,36 +16,37 @@ docker compose up -d
 docker compose up -d python
 ```
 
-3. See the log of a running container.
-
-```Shell
-docker logs docker-python-1
-```
-
-4. Stop all running containers and restart a stopped container.
+3. Stop all running containers and restart a stopped container.
 
 ```Shell
 docker stop $(docker ps -q)
 docker start docker-python-1
 ```
 
+4. See the log of a running container.
+
+```Shell
+docker logs docker-python-1
+```
+
 5. Build all containters or one of them.
 
 ```Shell
 docker compose build --no-cache
-docker compose build --no-cache python
+docker compose build --no-cache --progress=plain python
 ```
 
 6. Run a container for once.
 
 ```Shell
-docker compose run --rm --service-ports python # Replace python with r, julia, psql or mysql
+docker compose run --rm --service-ports python # Replace python with r, julia or psql.
 ```
 
 ## Update packages and build docker images again.
 
 ```Shell
-./update.sh
+cd ~/github/docker
+./update-images.sh
 ```
 
 ## Forward ports through SSH.
@@ -79,28 +80,37 @@ docker compose exec mysql bash
 # Use the username 'root' and the password from 'PASSWORD_FILE' to connect to the database remotely.
 ```
 
-## Run Dask and Sparklyr remotely on the Kubernetes cluster.
+## Run Dask remotely on the Kubernetes cluster.
 
-The container user's `.profile` runs `~/gcloud-auth.sh` at startup to set up connection with the GKE cluster using `key-gcloud.json` inside the `~/keys` folder and set the namespace to `cluster`. Use `kubectl port-forward` to connect to the dashboard on the Dask scheduler service or Sparklyr driver pod.
+Follow instructions in the `dask.ipynb` within the `cookbook` repository.
 
-Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly. 
+## Run Sparklyr remotely on the Kubernetes cluster.
+
+1. Build and push a Spark image to the artifact registry.
+
+```Shell
+cd ~/github/docker
+./spark.sh
+```
+
+2. Follow instructions in the `sparklyr.rmd` within the `cookbook` repository.
+
+3. Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly.
 
 ## Run Julia Jupyter Lab inside the kubernetes cluster.
 
 1. Run `julia-push.sh` to re-tag and push the Julia image to the Google Cloud.
 
-2. Check the image in the `julia-pod.yml` matches the pushed image.
+2. Type `gcloud container clusters resize cluster-1 --num-nodes=1 --zone=us-central1-c` to scale up the Kubernetes cluster.
 
-3. Type `gcloud container clusters resize cluster-1 --num-nodes=1 --zone=us-central1-c` to scale up the Kubernetes cluster.
+3. Run `julia-kube.sh` to run and sync with the julia container. (Check the container log for the Jupyter Lab token.)
 
-4. Run `julia-kube.sh` to run and sync with the julia container. (Check the container log for the Jupyter Lab token.)
+4. Open a new terminal and request local forward by pressing shift + ` + c and then -L 1234:localhost:1234.
 
-5. Open a new terminal and request local forward by pressing shift + ` + c and then -L 1234:localhost:1234.
+5. In the new terminal, run `kubectl port-forward pod/julia 1234:1234`.
 
-6. In the new terminal, run `kubectl port-forward pod/julia 1234:1234`.
+6. Go to `localhost:1234` in the browser of the local machine. (Enter the token from the container log.)
 
-7. Go to `localhost:1234` in the browser of the local machine. (Enter the token from the container log.)
-
-8. After shutting down the Jupyter Lab, run `gcloud container clusters resize cluster-1 --async --num-nodes=0 --zone=us-central1-c` to scale down the cluster.
+7. After shutting down the Jupyter Lab, run `gcloud container clusters resize cluster-1 --async --num-nodes=0 --zone=us-central1-c` to scale down the cluster.
 
 Pluto does not run as the master and cannot add workers, so there is no point in running it in the Kubernetes cluster.

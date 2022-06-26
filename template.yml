@@ -1,8 +1,27 @@
 name: docker
 services:
+  ubuntu:
+    image: docker/ubuntu:INPUT_UBUNTU_VERSION
+    build:
+      context: ./ubuntu
+      args:
+        UBUNTU_VERSION: INPUT_UBUNTU_VERSION
+    volumes:
+      - type: bind
+        source: /home/ubuntu/github
+        target: /home/ubuntu/github
+      - type: bind
+        source: /home/ubuntu/keys
+        target: /home/ubuntu/keys
+    stdin_open: true
+    tty: true
   python:
-    image: docker/python:3.10.5
-    build: ./python
+    image: docker/python:INPUT_PYTHON_VERSION
+    build:
+      context: ./python
+      args:
+        PYTHON_VERSION: INPUT_PYTHON_VERSION
+        GCLOUD_VERSION: INPUT_GCLOUD_VERSION
     ports: 
       - "8888:8888"
     volumes:
@@ -13,8 +32,14 @@ services:
         source: /home/ubuntu/keys
         target: /home/python/keys
   r:
-    image: docker/r:4.2.0
-    build: ./r
+    image: docker/r:INPUT_R_VERSION
+    build:
+      context: ./r
+      args:
+        R_VERSION: INPUT_R_VERSION
+        GCLOUD_VERSION: INPUT_GCLOUD_VERSION
+        SPARK_VERSION: INPUT_SPARK_VERSION
+        JAVA_VERSION: INPUT_JAVA_VERSION
     ports: 
       - "8787:8787"
     volumes:
@@ -25,8 +50,11 @@ services:
         source: /home/ubuntu/keys
         target: /home/rstudio/keys
   julia:
-    image: docker/julia:1.7.3
-    build: ./julia
+    image: docker/julia:INPUT_JULIA_VERSION
+    build:
+      context: ./julia
+      args:
+        JULIA_VERSION: INPUT_JULIA_VERSION
     ports:
       - "1234:1234"
     volumes:
@@ -34,7 +62,7 @@ services:
         source: /home/ubuntu/github
         target: /home/julia/github
   psql:
-    image: postgres:14.3
+    image: postgres:INPUT_PSQL_VERSION
     ports:
       - "5432:5432"
     volumes:
@@ -42,7 +70,7 @@ services:
         source: psql
         target: /var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=PASSWORD_FILE
+      - POSTGRES_PASSWORD=INPUT_PSQL_PASSWORD
   # mysql:
     # image: mysql:8.0.29
     # ports:

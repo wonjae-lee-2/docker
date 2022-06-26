@@ -3,9 +3,11 @@
 # Start a Julia container.
 kubectl apply -f julia-pod.yml
 
-# Show the token of Jupyter Lab in the container.
+# Wait until the container displays the token for Jupyter Lab.
 while ! kubectl logs julia
 do
+    echo "Waiting for the container to start..."
+    echo
     sleep 10
 done
 
