@@ -82,7 +82,28 @@ docker compose exec mysql bash
 
 ## Run Dask remotely on the Kubernetes cluster.
 
-Follow instructions in the `dask.ipynb` within the `cookbook` repository.
+1. Start the Python container in the background.
+
+```Shell
+cd ~/github/docker
+docker compose up -d python
+```
+
+2. Check the token for Jupyter Lab.
+
+```Shell
+docker logs docker-python-1
+```
+
+3. Request local forward from the local machine to the virtual machine. 
+
+```
+Press `shift` + `` ` `` + `c` and then type `-L 8888:localhost:8888`
+```
+
+4. Go to `localhost:8888` in the browser of the local machine.
+
+5. Follow instructions in the `dask.ipynb` within the `cookbook` repository.
 
 ## Run Sparklyr remotely on the Kubernetes cluster.
 
@@ -93,9 +114,30 @@ cd ~/github/docker
 ./spark.sh
 ```
 
-2. Follow instructions in the `sparklyr.rmd` within the `cookbook` repository.
+2. Start the R container in the background.
 
-3. Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly.
+```Shell
+cd ~/github/docker
+docker compose up -d r
+```
+
+3. Check the password for RStudio.
+
+```Shell
+docker logs docker-r-1
+```
+
+4. Request local forward from the local machine to the virtual machine. 
+
+```
+Press `shift` + `` ` `` + `c` and then type `-L 8787:localhost:8787`
+```
+
+5. Go to `localhost:8787` in the browser of the local machine.
+
+6. Follow instructions in the `sparklyr.rmd` within the `cookbook` repository.
+
+7. Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly.
 
 ## Run Julia Jupyter Lab inside the kubernetes cluster.
 
