@@ -18,4 +18,4 @@ docker push ${ARTIFACT_REGISTRY}/julia:${JULIA_VERSION}
 docker rmi ${ARTIFACT_REGISTRY}/julia:${JULIA_VERSION}
 
 # Update the `julia-pod.yml`.
-sed -i "s/julia:.*$/julia:${JULIA_VERSION}/g" julia-pod.yml
+sed -i "s/julia:.*$/julia:${JULIA_VERSION}/g" ~/github/docker/julia/deployment.yml

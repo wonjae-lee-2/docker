@@ -31,6 +31,8 @@ services:
       - type: bind
         source: /home/ubuntu/keys
         target: /home/python/keys
+    environment:
+      - NAMESPACE=dask
   r:
     image: docker/r:INPUT_R_VERSION
     build:
@@ -49,18 +51,26 @@ services:
       - type: bind
         source: /home/ubuntu/keys
         target: /home/rstudio/keys
+    environment:
+      - NAMESPACE=spark
   julia:
     image: docker/julia:INPUT_JULIA_VERSION
     build:
       context: ./julia
       args:
         JULIA_VERSION: INPUT_JULIA_VERSION
+        GCLOUD_VERSION: INPUT_GCLOUD_VERSION
     ports:
       - "1234:1234"
     volumes:
       - type: bind
         source: /home/ubuntu/github
-        target: /home/julia/github
+        target: /root/github
+      - type: bind
+        source: /home/ubuntu/keys
+        target: /root/keys
+    environment:
+      - NAMESPACE=julia
   psql:
     image: postgres:INPUT_PSQL_VERSION
     ports:
@@ -69,6 +79,19 @@ services:
       - type: volume
         source: psql
         target: /var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=INPUT_PSQL_PASSWORD
+  trino:
+    image: trinodb/trino:INPUT_TRINO_VERSION
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: ./trino/catalog
+        target: /etc/trino/catalog
+      - type: volume
+        source: trino
+        target: /data/trino
     environment:
       - POSTGRES_PASSWORD=INPUT_PSQL_PASSWORD
   # mysql:
@@ -83,4 +106,5 @@ services:
       # - MYSQL_ROOT_PASSWORD=PASSWORD_FILE
 volumes:
   psql:
+  trino:
   # mysql:

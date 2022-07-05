@@ -24,6 +24,9 @@ echo
 echo "Check the latest PostgreSQL image. https://hub.docker.com/_/postgres"
 read -p "Which version of PostgreSQL would you like to build an image for? " INPUT_PSQL_VERSION
 read -p "What password would you like to use for PostgreSQL? " INPUT_PSQL_PASSWORD
+echo
+echo "Check the latest Trino image. https://hub.docker.com/r/trinodb/trino"
+read -p "Which version of Trino would you like to build an image for? " INPUT_TRINO_VERSION
 
 # Replace password and software versions in `template.yml` with environment variables to generate `compose.yml`.
 sed -e "s/INPUT_UBUNTU_VERSION/${INPUT_UBUNTU_VERSION}/g" \
@@ -35,4 +38,8 @@ sed -e "s/INPUT_UBUNTU_VERSION/${INPUT_UBUNTU_VERSION}/g" \
     -e "s/INPUT_JULIA_VERSION/${INPUT_JULIA_VERSION}/g" \
     -e "s/INPUT_PSQL_VERSION/${INPUT_PSQL_VERSION}/g" \
     -e "s/INPUT_PSQL_PASSWORD/${INPUT_PSQL_PASSWORD}/g" \
-    template.yml > compose.yml
+    -e "s/INPUT_TRINO_VERSION/${INPUT_TRINO_VERSION}/g" \
+    template-compose.yml > compose.yml
+
+# Copy the ssh public key to the julia sub-folder.
+cp ~/.ssh/id_ed25519.pub ~/github/docker/julia

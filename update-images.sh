@@ -1,22 +1,24 @@
 #!/bin/bash
 
-read -p "Which docker image would you like to rebuild with latest packages? " INPUT
-echo
-
 # Set environment variables.
 SCRIPT_FOLDER=~/github/scripts
 
 # Update packages.
-$SCRIPT_FOLDER/packages/$INPUT.sh
+$SCRIPT_FOLDER/packages/python.sh
+$SCRIPT_FOLDER/packages/r.sh
+$SCRIPT_FOLDER/packages/julia.sh
 
 # Stop the container.
-docker stop docker-$INPUT-1
+docker stop $(docker ps -aq)
 
 # Remove the container.
-docker rm docker-$INPUT-1
+docker rm $(docker ps -aq)
 
 # Remove the image.
-docker rmi $(docker images */$INPUT -q)
+docker rmi $(docker images -q)
+
+# Clear the cache.
+docker system prune
 
 # Build the image.
-docker compose build --no-cache $INPUT
+docker compose build --no-cache

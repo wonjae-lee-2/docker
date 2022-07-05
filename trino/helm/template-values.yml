@@ -1,0 +1,26 @@
+server:
+  workers: 10
+service:
+  type: LoadBalancer
+coordinator:
+  resources:
+    limits:
+      cpu: 4
+      memory: 16G
+    requests:
+      cpu: 4
+      memory: 16G
+worker:
+  resources:
+    limits:
+      cpu: 1
+      memory: 4G
+    requests:
+      cpu: 1
+      memory: 4G
+additionalCatalogs:
+  postgresql: |
+    connector.name=postgresql
+    connection-url=jdbc:postgresql://ec2-3-83-6-11.compute-1.amazonaws.com:5432/postgres
+    connection-user=postgres
+    connection-password=INPUT_PSQL_PASSWORD

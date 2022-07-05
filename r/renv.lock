@@ -116,10 +116,10 @@
     },
     "R.utils": {
       "Package": "R.utils",
-      "Version": "2.11.0",
+      "Version": "2.12.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "a7ecb8e60815c7a18648e84cd121b23a",
+      "Hash": "d31333e10f14027e1cbbc6f266512806",
       "Requirements": [
         "R.methodsS3",
         "R.oo"
@@ -473,10 +473,10 @@
     },
     "dbplyr": {
       "Package": "dbplyr",
-      "Version": "2.2.0",
+      "Version": "2.2.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "a6e4cc7b658d043806bc559ef42a1d2a",
+      "Hash": "f6c7eb9617e4d2a86bb7182fff99c805",
       "Requirements": [
         "DBI",
         "R6",
@@ -802,10 +802,10 @@
     },
     "globals": {
       "Package": "globals",
-      "Version": "0.15.0",
+      "Version": "0.15.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "ace993e2dad5e64ed46391302b79e94f",
+      "Hash": "9449b1dfaf8609db72556cfbe228285d",
       "Requirements": [
         "codetools"
       ]
@@ -882,10 +882,10 @@
     },
     "hardhat": {
       "Package": "hardhat",
-      "Version": "1.1.0",
+      "Version": "1.2.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "b513a8bb3985a2367a0f8014962c6c34",
+      "Hash": "7cd2660e174e555b05aaeac979dee22b",
       "Requirements": [
         "glue",
         "rlang",
@@ -1093,10 +1093,10 @@
     },
     "klaR": {
       "Package": "klaR",
-      "Version": "1.7-0",
+      "Version": "1.7-1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "928347d3f87652bf30fe5ac2e23eed53",
+      "Hash": "25d30eb789ecd98d9e2884b250822dfa",
       "Requirements": [
         "MASS",
         "combinat",
@@ -1557,10 +1557,10 @@
     },
     "qap": {
       "Package": "qap",
-      "Version": "0.1-1",
+      "Version": "0.1-2",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "753e69deffc32851121955ea150ecf8d",
+      "Hash": "21c4fc168ebf32add2db6a358ce4714c",
       "Requirements": []
     },
     "questionr": {
@@ -1727,10 +1727,10 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.0.2",
+      "Version": "1.0.3",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "04884d9a75d778aca22c7154b8333ec9",
+      "Hash": "9103a8f74b2114a5ed1136b471d8feca",
       "Requirements": []
     },
     "rmarkdown": {
@@ -1770,16 +1770,17 @@
     },
     "rsample": {
       "Package": "rsample",
-      "Version": "0.1.1",
+      "Version": "1.0.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "d1ac9b0eedb5dabcec1309e072b169cb",
+      "Hash": "d3ef8543c8f3b44990cc122909847087",
       "Requirements": [
         "dplyr",
         "ellipsis",
         "furrr",
         "generics",
-        "lifecycle",
+        "glue",
+        "pillar",
         "purrr",
         "rlang",
         "slider",

@@ -139,20 +139,64 @@ Press `shift` + `` ` `` + `c` and then type `-L 8787:localhost:8787`
 
 7. Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly.
 
-## Run Julia Jupyter Lab inside the kubernetes cluster.
+## Make Julia access the kubernetes cluster.
 
 1. Run `julia-push.sh` to re-tag and push the Julia image to the Google Cloud.
 
-2. Type `gcloud container clusters resize cluster-1 --num-nodes=1 --zone=us-central1-c` to scale up the Kubernetes cluster.
+2. Start the Julia container in the background.
 
-3. Run `julia-kube.sh` to run and sync with the julia container. (Check the container log for the Jupyter Lab token.)
+```Shell
+docker compose up -d julia
+```
 
-4. Open a new terminal and request local forward by pressing shift + ` + c and then -L 1234:localhost:1234.
+3. Check the token for Jupyter Lab.
 
-5. In the new terminal, run `kubectl port-forward pod/julia 1234:1234`.
+```Shell
+docker logs docker-julia-1
+```
 
-6. Go to `localhost:1234` in the browser of the local machine. (Enter the token from the container log.)
+4. Request local forward between the local machine and the virtual machine.
 
-7. After shutting down the Jupyter Lab, run `gcloud container clusters resize cluster-1 --async --num-nodes=0 --zone=us-central1-c` to scale down the cluster.
+```Shell
+Press `shift` + `` ` `` + `c` and then -L 1234:localhost:1234
+```
+
+5. Go to `localhost:8787` in the browser of the local machine. (Enter the token from the container log.)
+
+6. Follow instructions in the `julia.ipynb` within the `cookbook` repository.
 
 Pluto does not run as the master and cannot add workers, so there is no point in running it in the Kubernetes cluster.
+
+## Work with the Trino Docker container.
+
+1. Start the Trino docker container.
+
+```Shell
+docker compose up -d trino
+```
+
+2. Request local forward from the local machine to the virtual machine for the web UI.
+
+```
+Press `shift` + `` ` `` + `c` and then type `-L 8080:localhost:8080`
+```
+
+2. Get a shell to the Trino CLI.
+
+```Shell
+docker exec -it docker-trino-1 trino
+```
+
+4. Go to `localhost:8080` in the browser of the local machine for the web UI.
+
+## Work with the Trino Helm chart.
+
+1. Install the Trino helm chart and get a shell to the Trino CLI.
+
+```Shell
+./trino.sh
+```
+
+2. Check the external IP address of the load balancer.
+
+3. Go to `<load-balancer-external-ip>:8080` in the browser of the local machine for the web UI.
