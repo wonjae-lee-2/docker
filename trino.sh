@@ -1,18 +1,10 @@
 #!/bin/bash
 
-# Get user input for software versions.
-echo
-read -p "What is your PostgreSQL password? " INPUT_PSQL_PASSWORD
-
-# Replace password in `template-values.yml` to generate `values.yml`.
-sed -e "s/INPUT_PSQL_PASSWORD/${INPUT_PSQL_PASSWORD}/g" \
-    trino/helm/template-values.yml > trino/helm/values.yml
-
 # Add the trino helm chart repository.
 helm repo add trino https://trinodb.github.io/charts/
 
 # Install the trino helm chart with the customized values.yml.
-helm install -n trino -f ~/github/docker/trino/helm/values.yml trino trino/trino
+helm install -n trino -f ~/github/docker/values.yml trino trino/trino
 
 # Wait until the coordinator is deployed.
 kubectl wait deployment/trino-coordinator -n trino --for=condition=Available --timeout=600s

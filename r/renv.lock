@@ -257,10 +257,10 @@
     },
     "broom": {
       "Package": "broom",
-      "Version": "0.8.0",
+      "Version": "1.0.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "fe13cb670e14da57fd7a466578db8ce5",
+      "Hash": "c948329889c7b24a4201df3aef5058c2",
       "Requirements": [
         "backports",
         "dplyr",
@@ -1284,11 +1284,17 @@
     },
     "modeldata": {
       "Package": "modeldata",
-      "Version": "0.1.1",
+      "Version": "1.0.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "30951e1c2022c6a8e1809d4224c0a5ab",
-      "Requirements": []
+      "Hash": "bd22a86efc049816752f3d9346757a52",
+      "Requirements": [
+        "MASS",
+        "dplyr",
+        "purrr",
+        "rlang",
+        "tibble"
+      ]
     },
     "modelr": {
       "Package": "modelr",
@@ -1636,12 +1642,13 @@
     },
     "recipes": {
       "Package": "recipes",
-      "Version": "0.2.0",
+      "Version": "1.0.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "2a0f64b148f3064f980404287b511f98",
+      "Hash": "c676b25d083487d59bbafe9b01732d9a",
       "Requirements": [
         "Matrix",
+        "cli",
         "dplyr",
         "ellipsis",
         "generics",

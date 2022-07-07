@@ -9,13 +9,13 @@ PROJECT_ID=project-lee-1
 ARTIFACT_REGISTRY=us-central1-docker.pkg.dev/${PROJECT_ID}/docker
 
 # Re-tag the Julia image.
-docker tag docker/julia:${JULIA_VERSION} ${ARTIFACT_REGISTRY}/julia:${JULIA_VERSION}
+docker tag docker/julia-worker:${JULIA_VERSION} ${ARTIFACT_REGISTRY}/julia-worker:${JULIA_VERSION}
 
 # Push the image to the artifact registry.
-docker push ${ARTIFACT_REGISTRY}/julia:${JULIA_VERSION}
+docker push ${ARTIFACT_REGISTRY}/julia-worker:${JULIA_VERSION}
 
 # Untag the image.
-docker rmi ${ARTIFACT_REGISTRY}/julia:${JULIA_VERSION}
+docker rmi ${ARTIFACT_REGISTRY}/julia-worker:${JULIA_VERSION}
 
-# Update the `julia-pod.yml`.
-sed -i "s/julia:.*$/julia:${JULIA_VERSION}/g" ~/github/docker/julia/deployment.yml
+# Update the `deployment.yml` in the julia sub-folder.
+sed -i "s/julia-worker:.*$/julia-worker:${JULIA_VERSION}/g" ~/github/docker/julia/deployment.yml

@@ -2,38 +2,38 @@
 
 ## Build and run containers.
 
-1. Create the `compose.yml` file.
+1. Create the `compose.yml` and `compose-ec2.yml` file.
 
 ```Shell
 cd ~/github/docker
 ./generate-compose.sh
 ```
 
-2. Build and start all containers or one container in the background.
+2. Build all containters or one of them.
+
+```Shell
+docker compose build --no-cache
+docker compose build --no-cache --progress=plain python
+```
+
+3. Build and start all containers or one container in the background.
 
 ```Shell
 docker compose up -d
 docker compose up -d python
 ```
 
-3. Stop all running containers and restart a stopped container.
+4. Stop all running containers and restart a stopped container.
 
 ```Shell
 docker stop $(docker ps -q)
 docker start docker-python-1
 ```
 
-4. See the log of a running container.
+5. See the log of a running container.
 
 ```Shell
 docker logs docker-python-1
-```
-
-5. Build all containters or one of them.
-
-```Shell
-docker compose build --no-cache
-docker compose build --no-cache --progress=plain python
 ```
 
 6. Run a container for once.
@@ -200,3 +200,36 @@ docker exec -it docker-trino-1 trino
 2. Check the external IP address of the load balancer.
 
 3. Go to `<load-balancer-external-ip>:8080` in the browser of the local machine for the web UI.
+
+## Run PostgreSQL and Trino on the virtual machine.
+
+1. Copy the script to install docker to the virtual machine.
+
+```Shell
+scp ~/github/script/install/docker.sh aws:~
+```
+
+2. Copy the files to launch the PostgreSQL and Trino containers.
+
+```Shell
+scp ~/github/docker/compose-ec2.yml aws:~/compose.yml
+scp -r ~/github/docker/trino/* aws:~/trino
+```
+
+3. Log in to the virtual machine.
+
+```Shell
+ssh aws
+```
+
+4. Install docker.
+
+```Shell
+./docker.sh
+```
+
+5. Start the PostgreSQL and Trino containers.
+
+```Shell
+docker compose up -d
+```

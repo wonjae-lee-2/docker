@@ -15,8 +15,7 @@ spec:
     spec:
       containers:
       - name: worker
-        image: us-central1-docker.pkg.dev/project-lee-1/docker/julia:1.7.3
-        command: ["sh", "-c", "service ssh start; tail -f /dev/null"]
+        image: us-central1-docker.pkg.dev/project-lee-1/docker/julia-worker:1.7.3
         resources:
           limits:
             memory: "4G"
