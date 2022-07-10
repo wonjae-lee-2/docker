@@ -149,13 +149,19 @@ logout
 ssh aws
 ```
 
-5. Start the PostgreSQL and Trino containers.
+5. Install the Docker Volume Plugin.
+
+```Shell
+bash rclone-plugin.sh
+```
+
+6. Start the PostgreSQL and Trino containers.
 
 ```Shell
 docker compose up -d
 ```
 
-6. Start the PostgreSQL CLI.
+7. Start the PostgreSQL CLI.
 
 ```Shell
 # Type below after you start the PostgreSQL container.
@@ -163,7 +169,7 @@ docker compose exec -u postgres postgres psql
 # Use the username 'postgres' and the password from 'compose.yml' to connect remotely.
 ```
 
-7. Open the Trino web UI in the browser.
+8. Open the Trino web UI in the browser.
 
 ```
 Press `shift` + `` ` `` + `c` and then type `-L 8080:localhost:8080`.
@@ -171,7 +177,7 @@ Go to `localhost:8080` in the browser of the local machine.
 At the log in page, enter any username (or trino, for example) and press enter.
 ```
 
-8. Start the Trino CLI.
+9. Start the Trino CLI.
 
 ```Shell
 docker exec -it docker-trino-1 trino

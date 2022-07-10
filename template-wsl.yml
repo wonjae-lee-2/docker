@@ -79,11 +79,14 @@ volumes:
     driver: rclone
     driver_opts:
       remote: "onedrive:backup/github"
+      vfs_cache_mode: full
   s3:
     driver: rclone
     driver_opts:
       remote: "s3:"
+      vfs_cache_mode: writes
   gcs:
     driver: rclone
     driver_opts:
       remote: "gcs:"
+      vfs_cache_mode: writes

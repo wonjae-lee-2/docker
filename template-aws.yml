@@ -8,6 +8,12 @@ services:
       - type: volume
         source: postgres
         target: /var/lib/postgresql/data
+      - type: volume
+        source: s3
+        target: /var/lib/postgresql/s3
+      - type: volume
+        source: gcs
+        target: /var/lib/postgresql/gcs
     environment:
       - POSTGRES_PASSWORD=INPUT_POSTGRES_PASSWORD
   trino:
@@ -21,6 +27,12 @@ services:
       - type: volume
         source: trino
         target: /data/trino
+      - type: volume
+        source: s3
+        target: /home/trino/s3
+      - type: volume
+        source: gcs
+        target: /home/trino/gcs
     environment:
       - POSTGRES_PASSWORD=INPUT_POSTGRES_PASSWORD
   # mysql:
@@ -36,4 +48,14 @@ services:
 volumes:
   postgres:
   trino:
+  s3:
+    driver: rclone
+    driver_opts:
+      remote: "s3:"
+      vfs_cache_mode: writes
+  gcs:
+    driver: rclone
+    driver_opts:
+      remote: "gcs:"
+      vfs_cache_mode: writes
   # mysql:
