@@ -1,15 +1,11 @@
-# syntax=docker/dockerfile:1
-
 ARG PYTHON_VERSION
 
 FROM python:${PYTHON_VERSION}
 
 ARG GCLOUD_VERSION
 
-ARG HOME=/home/python
+ARG HOME=/root
 ARG GCLOUD_FOLDER=${HOME}/gcloud
-
-RUN useradd -m python
 
 WORKDIR ${HOME}
 
@@ -19,17 +15,14 @@ RUN pip install --no-cache-dir -U pip setuptools wheel; \
 
 RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
     mkdir ${GCLOUD_FOLDER}; \
-    chown python ${GCLOUD_FOLDER}; \
-    su - python -c "tar -x -f google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz -C ${GCLOUD_FOLDER} --strip-components=1"; \
-    su - python -c "${GCLOUD_FOLDER}/install.sh --quiet --command-completion True --path-update True"; \
-    su - python -c "${GCLOUD_FOLDER}/bin/gcloud components install kubectl --quiet"; \
+    tar -x -f google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz -C ${GCLOUD_FOLDER} --strip-components=1; \
+    ${GCLOUD_FOLDER}/install.sh --quiet --command-completion True --path-update True; \
+    ${GCLOUD_FOLDER}/bin/gcloud components install kubectl --quiet; \
     ln -fs ${GCLOUD_FOLDER}/bin/gcloud /usr/local/bin/gcloud; \
     ln -fs ${GCLOUD_FOLDER}/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
-    echo ${HOME}/keys/gcloud-auth.sh >> $HOME/.profile
-
-USER python
+    echo "bash ${HOME}/keys/gcloud-auth.sh" >> $HOME/.profile
 
 EXPOSE 8888
 
-CMD ["jupyter", "lab", "--no-browser", "--ip=0.0.0.0", "--port=8888"]
+CMD ["jupyter", "lab", "--allow-root", "--no-browser", "--ip=0.0.0.0", "--port=8888"]

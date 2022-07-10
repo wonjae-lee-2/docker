@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 ARG JULIA_VERSION
 
 FROM julia:${JULIA_VERSION}

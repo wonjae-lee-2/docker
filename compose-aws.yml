@@ -1,7 +1,7 @@
 name: docker
 services:
   psql:
-    image: postgres:INPUT_PSQL_VERSION
+    image: postgres:14.4
     ports:
       - "5432:5432"
     volumes:
@@ -9,20 +9,20 @@ services:
         source: psql
         target: /var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=INPUT_PSQL_PASSWORD
+      - POSTGRES_PASSWORD=gloryvine
   trino:
-    image: trinodb/trino:INPUT_TRINO_VERSION
+    image: trinodb/trino:388
     ports:
       - "8080:8080"
     volumes:
       - type: bind
-        source: ./trino/catalog
+        source: ./trino-catalog
         target: /etc/trino/catalog
       - type: volume
         source: trino
         target: /data/trino
     environment:
-      - POSTGRES_PASSWORD=INPUT_PSQL_PASSWORD
+      - POSTGRES_PASSWORD=gloryvine
   # mysql:
     # image: mysql:8.0.29
     # ports:

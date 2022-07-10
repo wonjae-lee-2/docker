@@ -4,7 +4,7 @@
 helm repo add trino https://trinodb.github.io/charts/
 
 # Install the trino helm chart with the customized values.yml.
-helm install -n trino -f ~/github/docker/values.yml trino trino/trino
+helm install -n trino -f ~/github/docker/trino/values.yml trino trino/trino
 
 # Wait until the coordinator is deployed.
 kubectl wait deployment/trino-coordinator -n trino --for=condition=Available --timeout=600s
@@ -19,7 +19,7 @@ kubectl get services -n trino
 kubectl exec -n trino -it service/trino -- trino
 
 # Uninstall the trino helm chart.
-#helm uninstall trino
+#helm uninstall -n trino trino
 
 # Update the trino helm chart repo.
 #helm repo update

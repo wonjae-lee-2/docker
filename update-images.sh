@@ -4,9 +4,9 @@
 SCRIPT_FOLDER=~/github/scripts
 
 # Update packages.
-$SCRIPT_FOLDER/packages/python.sh
-$SCRIPT_FOLDER/packages/r.sh
-$SCRIPT_FOLDER/packages/julia.sh
+${SCRIPT_FOLDER}/packages/python.sh
+${SCRIPT_FOLDER}/packages/r.sh
+${SCRIPT_FOLDER}/packages/julia.sh
 
 # Stop the container.
 docker stop $(docker ps -aq)
@@ -20,5 +20,5 @@ docker rmi $(docker images -q)
 # Clear the cache.
 docker system prune
 
-# Build the image.
-docker compose build --no-cache
+# Build the images.
+bash build-images.sh

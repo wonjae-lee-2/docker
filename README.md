@@ -1,83 +1,69 @@
 # How to create and start docker containers.
 
-## Build and run containers.
+## Build, push and update images on WSL.
 
-1. Create the `compose.yml` and `compose-ec2.yml` file.
+1. Create the `compose.yml`, `compose-ec2.yml` and `values.yml` files.
 
 ```Shell
 cd ~/github/docker
-./generate-compose.sh
+bash generate-compose.sh
 ```
 
-2. Build all containters or one of them.
+2. Install the Rclone plugin.
+
+```Shell
+bash rclone-plugin.sh
+```
+
+3. Build and push all images, including spark and julia-worker images for Kubernetes.
+
+```Shell
+cd ~/github/docker
+bash build-images.sh
+```
+
+4. Update packages and rebuild all images.
+
+```Shell
+cd ~/github/docker
+bash update-images.sh
+```
+
+5. Build all images or one of them with `compose.yml`.
 
 ```Shell
 docker compose build --no-cache
 docker compose build --no-cache --progress=plain python
 ```
 
-3. Build and start all containers or one container in the background.
+## Run and manage images on WSL.
+
+1. Start all containers or one container in the background on WSL.
 
 ```Shell
 docker compose up -d
 docker compose up -d python
 ```
 
-4. Stop all running containers and restart a stopped container.
+2. Run Pluto in a new Julia container.
 
 ```Shell
-docker stop $(docker ps -q)
-docker start docker-python-1
+docker compose run --rm --service-ports julia pluto.sh
 ```
 
-5. See the log of a running container.
+3. See the log of a running container.
 
 ```Shell
 docker logs docker-python-1
 ```
 
-6. Run a container for once.
+4. For the Python and Julia container, copy the token dispalyed in the log and go to `localhost:8888` or `localhost:1234` in the browser. The R container does not show any password, so go to `localhost:8787` in the browser and enter the username `root` as well as the password included in `compose.yml` instead.
+
+5. Stop all running containers and restart a stopped container.
 
 ```Shell
-docker compose run --rm --service-ports python # Replace python with r, julia or psql.
-```
-
-## Update packages and build docker images again.
-
-```Shell
-cd ~/github/docker
-./update-images.sh
-```
-
-## Forward ports through SSH.
-
-1. For the python jupyter lab, press `shift` + `` ` `` + `c` and then type `-L 8888:localhost:8888` to request local forward. Replace the port number `8888` with `8787` or `1234` for the R and Julia containers.
-
-2. For the python jupyter lab, copy the token dispalyed on the virtual machine and go to `localhost:8888` in the browser of the local machine.  Replace the port number `8888` with `8787` or `1234` for the R and Julia containers.
-
-## Run custom commands.
-
-1. Run Pluto in a new Julia container.
-
-```Shell
-# Type below after you build the Julia image.
-docker compose run --rm --service-ports julia ./pluto.sh
-```
-
-2. Start a bash shell in the running PostgreSQL container.
-
-```Shell
-# Type below after you start the PostgreSQL container.
-docker compose exec -u postgres psql bash
-# Use the username 'postgres' and the password from 'PASSWORD_FILE' to connect to the database remotely.
-```
-
-3. Start a bash shell in the running MySQL container.
-
-```Shell
-# Type below after you start the MySQL container.
-docker compose exec mysql bash
-# Use the username 'root' and the password from 'PASSWORD_FILE' to connect to the database remotely.
+docker stop $(docker ps -q)
+docker start docker-python-1
 ```
 
 ## Run Dask remotely on the Kubernetes cluster.
@@ -95,141 +81,116 @@ docker compose up -d python
 docker logs docker-python-1
 ```
 
-3. Request local forward from the local machine to the virtual machine. 
+3. Go to `localhost:8888` in the browser of the local machine.
 
-```
-Press `shift` + `` ` `` + `c` and then type `-L 8888:localhost:8888`
-```
-
-4. Go to `localhost:8888` in the browser of the local machine.
-
-5. Follow instructions in the `dask.ipynb` within the `cookbook` repository.
+4. Follow instructions in the `dask.ipynb` within the `cookbook` repository.
 
 ## Run Sparklyr remotely on the Kubernetes cluster.
 
-1. Build and push a Spark image to the artifact registry.
-
-```Shell
-cd ~/github/docker
-./spark.sh
-```
-
-2. Start the R container in the background.
+1. Start the R container in the background.
 
 ```Shell
 cd ~/github/docker
 docker compose up -d r
 ```
 
-3. Check the password for RStudio.
+2. Go to `localhost:8787` in the browser of the local machine.
 
-```Shell
-docker logs docker-r-1
-```
+3. Enter the username `root` and the password included in the `compose.yml`.
 
-4. Request local forward from the local machine to the virtual machine. 
+4. Follow instructions in the `sparklyr.rmd` within the `cookbook` repository.
 
-```
-Press `shift` + `` ` `` + `c` and then type `-L 8787:localhost:8787`
-```
-
-5. Go to `localhost:8787` in the browser of the local machine.
-
-6. Follow instructions in the `sparklyr.rmd` within the `cookbook` repository.
-
-7. Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly.
+5. Sparklyr should use the standard cluster because the connection with the autopilot cluster can be interrupted unexpectedly.
 
 ## Make Julia access the kubernetes cluster.
 
-1. Run `julia-push.sh` to re-tag and push the Julia image to the Google Cloud.
-
-2. Start the Julia container in the background.
+1. Start the Julia container in the background.
 
 ```Shell
 docker compose up -d julia
 ```
 
-3. Check the token for Jupyter Lab.
+2. Check the token for Jupyter Lab.
 
 ```Shell
 docker logs docker-julia-1
 ```
 
-4. Request local forward between the local machine and the virtual machine.
+3. Go to `localhost:1234` in the browser of the local machine. (Enter the token from the container log.)
 
-```Shell
-Press `shift` + `` ` `` + `c` and then -L 1234:localhost:1234
-```
-
-5. Go to `localhost:8787` in the browser of the local machine. (Enter the token from the container log.)
-
-6. Follow instructions in the `julia.ipynb` within the `cookbook` repository.
+4. Follow instructions in the `julia.ipynb` within the `cookbook` repository.
 
 Pluto does not run as the master and cannot add workers, so there is no point in running it in the Kubernetes cluster.
 
-## Work with the Trino Docker container.
-
-1. Start the Trino docker container.
-
-```Shell
-docker compose up -d trino
-```
-
-2. Request local forward from the local machine to the virtual machine for the web UI.
-
-```
-Press `shift` + `` ` `` + `c` and then type `-L 8080:localhost:8080`
-```
-
-2. Get a shell to the Trino CLI.
-
-```Shell
-docker exec -it docker-trino-1 trino
-```
-
-4. Go to `localhost:8080` in the browser of the local machine for the web UI.
-
-## Work with the Trino Helm chart.
-
-1. Install the Trino helm chart and get a shell to the Trino CLI.
-
-```Shell
-./trino.sh
-```
-
-2. Check the external IP address of the load balancer.
-
-3. Go to `<load-balancer-external-ip>:8080` in the browser of the local machine for the web UI.
-
 ## Run PostgreSQL and Trino on the virtual machine.
 
-1. Copy the script to install docker to the virtual machine.
+1. Copy files to the virtual machine.
 
 ```Shell
-scp ~/github/script/install/docker.sh aws:~
+bash scp-aws.sh
 ```
 
-2. Copy the files to launch the PostgreSQL and Trino containers.
-
-```Shell
-scp ~/github/docker/compose-ec2.yml aws:~/compose.yml
-scp -r ~/github/docker/trino/* aws:~/trino
-```
-
-3. Log in to the virtual machine.
+2. Log in to the virtual machine.
 
 ```Shell
 ssh aws
 ```
 
-4. Install docker.
+3. Install docker.
 
 ```Shell
-./docker.sh
+bash docker.sh
+```
+
+4. Log out from and log back in to the virutal machine.
+
+```Shell
+logout
+ssh aws
 ```
 
 5. Start the PostgreSQL and Trino containers.
 
 ```Shell
 docker compose up -d
+```
+
+6. Start the PostgreSQL CLI.
+
+```Shell
+# Type below after you start the PostgreSQL container.
+docker compose exec -u postgres postgres psql
+# Use the username 'postgres' and the password from 'compose.yml' to connect remotely.
+```
+
+7. Open the Trino web UI in the browser.
+
+```
+Press `shift` + `` ` `` + `c` and then type `-L 8080:localhost:8080`.
+Go to `localhost:8080` in the browser of the local machine.
+At the log in page, enter any username (or trino, for example) and press enter.
+```
+
+8. Start the Trino CLI.
+
+```Shell
+docker exec -it docker-trino-1 trino
+```
+
+## Work with the Trino Helm chart.
+
+1. Install the Trino helm chart and get a shell to the Trino CLI.
+
+```Shell
+bash trino.sh
+```
+
+2. Check the external IP address of the load balancer.
+
+3. Go to `<load-balancer-external-ip>:8080` in the browser of the local machine for the web UI.
+
+4. After use, uninstall the Trino Helm chart to delete all pods.
+
+```Shell
+helm uninstall -n trino trino
 ```

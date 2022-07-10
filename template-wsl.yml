@@ -1,7 +1,7 @@
 name: docker
 services:
   python:
-    image: docker/python:INPUT_PYTHON_VERSION
+    image: us-central1-docker.pkg.dev/project-lee-1/docker/python:INPUT_PYTHON_VERSION
     build:
       context: ./python
       args:
@@ -10,16 +10,22 @@ services:
     ports: 
       - "8888:8888"
     volumes:
-      - type: bind
-        source: /home/ubuntu/github
-        target: /home/python/github
+      - type: volume
+        source: onedrive
+        target: /root/github
+      - type: volume
+        source: s3
+        target: /root/s3
+      - type: volume
+        source: gcs
+        target: /root/gcs
       - type: bind
         source: /home/ubuntu/keys
-        target: /home/python/keys
+        target: /root/keys
     environment:
       - NAMESPACE=dask
   r:
-    image: docker/r:INPUT_R_VERSION
+    image: us-central1-docker.pkg.dev/project-lee-1/docker/r:INPUT_R_VERSION
     build:
       context: ./r
       args:
@@ -30,16 +36,22 @@ services:
     ports: 
       - "8787:8787"
     volumes:
-      - type: bind
-        source: /home/ubuntu/github
+      - type: volume
+        source: onedrive
         target: /home/rstudio/github
+      - type: volume
+        source: s3
+        target: /home/rstudio/s3
+      - type: volume
+        source: gcs
+        target: /home/rstudio/gcs
       - type: bind
         source: /home/ubuntu/keys
         target: /home/rstudio/keys
     environment:
       - NAMESPACE=spark
   julia:
-    image: docker/julia:INPUT_JULIA_VERSION
+    image: us-central1-docker.pkg.dev/project-lee-1/docker/julia:INPUT_JULIA_VERSION
     build:
       context: ./julia
       args:
@@ -48,17 +60,30 @@ services:
     ports:
       - "1234:1234"
     volumes:
-      - type: bind
-        source: /home/ubuntu/github
+      - type: volume
+        source: onedrive
         target: /root/github
+      - type: volume
+        source: s3
+        target: /root/s3
+      - type: volume
+        source: gcs
+        target: /root/gcs
       - type: bind
         source: /home/ubuntu/keys
         target: /root/keys
     environment:
       - NAMESPACE=julia
-  julia-worker:
-    image: docker/julia-worker:INPUT_JULIA_VERSION
-    build:
-      context: ./julia-worker
-      args:
-        JULIA_VERSION: INPUT_JULIA_VERSION
+volumes:
+  onedrive:
+    driver: rclone
+    driver_opts:
+      remote: "onedrive:backup/github"
+  s3:
+    driver: rclone
+    driver_opts:
+      remote: "s3:"
+  gcs:
+    driver: rclone
+    driver_opts:
+      remote: "gcs:"

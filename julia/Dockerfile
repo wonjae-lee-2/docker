@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 ARG JULIA_VERSION
 
 FROM julia:${JULIA_VERSION}
@@ -18,8 +16,7 @@ COPY id_ed25519.pub id_ed25519.pub
 RUN apt update; \
     apt install -y openssh-server; \
     mkdir ${SSH_FOLDER}; \
-    mv id_ed25519.pub ${SSH_FOLDER}; \
-    cat ${SSH_FOLDER}/id_ed25519.pub >> ${SSH_FOLDER}/authorized_keys
+    mv id_ed25519.pub ${SSH_FOLDER}
 
 RUN apt install -y \
         wget \
@@ -32,7 +29,7 @@ RUN apt install -y \
     ln -fs ${GCLOUD_FOLDER}/bin/gcloud /usr/local/bin/gcloud; \
     ln -fs ${GCLOUD_FOLDER}/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
-    echo ${HOME}/keys/gcloud-auth.sh >> $HOME/.profile
+    echo "bash ${HOME}/keys/gcloud-auth.sh" >> $HOME/.profile
 
 COPY Project.toml Project.toml
 COPY Manifest.toml Manifest.toml

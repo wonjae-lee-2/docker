@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 ARG R_VERSION
 
 FROM rocker/rstudio:${R_VERSION}
@@ -29,7 +27,7 @@ RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud
     su - rstudio -c "${GCLOUD_FOLDER}/bin/gcloud components install kubectl --quiet"; \
     ln -fs ${GCLOUD_FOLDER}/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
-    echo ${HOME}/keys/gcloud-auth.sh >> ${HOME}/.profile
+    echo "bash ${HOME}/keys/gcloud-auth.sh" >> ${HOME}/.profile
 
 COPY .Rprofile .Rprofile
 COPY renv.lock renv.lock

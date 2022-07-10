@@ -218,6 +218,30 @@
       "Hash": "543776ae6848fde2f48ff3816d0628bc",
       "Requirements": []
     },
+    "bigrquery": {
+      "Package": "bigrquery",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "b6cb8e90ca26de6e3c541a7f69a76574",
+      "Requirements": [
+        "DBI",
+        "Rcpp",
+        "assertthat",
+        "bit64",
+        "curl",
+        "gargle",
+        "glue",
+        "httr",
+        "jsonlite",
+        "lifecycle",
+        "prettyunits",
+        "progress",
+        "rapidjsonr",
+        "rlang",
+        "tibble"
+      ]
+    },
     "bit": {
       "Package": "bit",
       "Version": "4.0.4",
@@ -762,10 +786,10 @@
     },
     "generics": {
       "Package": "generics",
-      "Version": "0.1.2",
+      "Version": "0.1.3",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "177475892cf4a55865868527654a7741",
+      "Hash": "15e9634c0fcd294799e9b2e929ed1b86",
       "Requirements": []
     },
     "ggplot2": {
@@ -1349,6 +1373,21 @@
       "Hash": "df58958f293b166e4ab885ebcad90e02",
       "Requirements": []
     },
+    "odbc": {
+      "Package": "odbc",
+      "Version": "1.3.3",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "3f9efc29c48dca3aebf00b61a472d543",
+      "Requirements": [
+        "DBI",
+        "Rcpp",
+        "bit64",
+        "blob",
+        "hms",
+        "rlang"
+      ]
+    },
     "openssl": {
       "Package": "openssl",
       "Version": "2.0.2",
@@ -1598,6 +1637,14 @@
         "jsonlite",
         "rstudioapi"
       ]
+    },
+    "rapidjsonr": {
+      "Package": "rapidjsonr",
+      "Version": "1.2.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "88b9f48c93d17cdb811b54079a6a414f",
+      "Requirements": []
     },
     "rappdirs": {
       "Package": "rappdirs",
@@ -2286,10 +2333,10 @@
     },
     "workflows": {
       "Package": "workflows",
-      "Version": "0.2.6",
+      "Version": "1.0.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "f61fe2b04745f032bfd08a29211fc584",
+      "Hash": "6e7dd3c9704c00f607ae19e5f5211531",
       "Requirements": [
         "cli",
         "generics",
