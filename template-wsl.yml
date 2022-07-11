@@ -7,7 +7,7 @@ services:
       args:
         PYTHON_VERSION: INPUT_PYTHON_VERSION
         GCLOUD_VERSION: INPUT_GCLOUD_VERSION
-    ports: 
+    ports:
       - "8888:8888"
     volumes:
       - type: volume
@@ -33,7 +33,7 @@ services:
         GCLOUD_VERSION: INPUT_GCLOUD_VERSION
         SPARK_VERSION: INPUT_SPARK_VERSION
         JAVA_VERSION: INPUT_JAVA_VERSION
-    ports: 
+    ports:
       - "8787:8787"
     volumes:
       - type: volume
