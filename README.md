@@ -62,8 +62,14 @@ docker logs docker-python-1
 5. Stop all running containers and restart a stopped container.
 
 ```Shell
-docker stop $(docker ps -q)
-docker start docker-python-1
+docker compose stop
+docker compose start python
+```
+
+6. Stop and remove all containers as well as netowrks.
+
+```Shell
+docker compose down
 ```
 
 ## Run Dask remotely on the Kubernetes cluster.
@@ -180,7 +186,7 @@ At the log in page, enter any username (or trino, for example) and press enter.
 9. Start the Trino CLI.
 
 ```Shell
-docker exec -it docker-trino-1 trino
+docker compose exec trino trino
 ```
 
 ## Work with the Trino Helm chart.

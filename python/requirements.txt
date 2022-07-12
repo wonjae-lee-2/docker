@@ -42,7 +42,7 @@ jedi==0.18.1
 Jinja2==3.1.2
 joblib==1.1.0
 json5==0.9.8
-jsonschema==4.6.2
+jsonschema==4.7.2
 jupyter-client==7.3.4
 jupyter-core==4.11.1
 jupyter-server==1.18.1
@@ -61,7 +61,7 @@ matplotlib-inline==0.1.3
 mistune==0.8.4
 msgpack==1.0.4
 multidict==6.0.2
-nbclassic==0.4.2
+nbclassic==0.4.3
 nbclient==0.6.6
 nbconvert==6.5.0
 nbformat==5.4.0
@@ -94,7 +94,7 @@ Pygments==2.12.0
 pyparsing==3.0.9
 pyrsistent==0.18.1
 python-dateutil==2.8.2
-python-json-logger==2.0.3
+python-json-logger==2.0.4
 pytz==2022.1
 PyYAML==6.0
 pyzmq==23.2.0
