@@ -14,11 +14,11 @@ COPY cluster.sh cluster.sh
 COPY deployment.yml deployment.yml
 COPY id_ed25519.pub id_ed25519.pub
 RUN apt update; \
-    apt install -y openssh-server; \
+    apt install --no-install-recommends -y openssh-server; \
     mkdir ${SSH_FOLDER}; \
     mv id_ed25519.pub ${SSH_FOLDER}
 
-RUN apt install -y \
+RUN apt install --no-install-recommends -y \
         wget \
         python3; \
     wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
@@ -29,13 +29,14 @@ RUN apt install -y \
     ln -fs ${GCLOUD_FOLDER}/bin/gcloud /usr/local/bin/gcloud; \
     ln -fs ${GCLOUD_FOLDER}/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
-    echo "bash ${HOME}/keys/gcloud-auth.sh" >> $HOME/.profile
+    echo "bash ${HOME}/secret/gcloud-auth.sh" >> $HOME/.profile
 
 COPY Project.toml Project.toml
 COPY Manifest.toml Manifest.toml
 COPY spec-file.txt spec-file.txt
 RUN julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); import Conda; Conda.update()'; \
-    ${HOME}/.julia/conda/3/bin/conda install -y --file spec-file.txt
+    ${HOME}/.julia/conda/3/bin/conda install -y --file spec-file.txt; \
+    rm -rf /var/lib/apt/lists/*
 
 COPY pluto.sh pluto.sh
 

@@ -21,6 +21,6 @@ worker:
 additionalCatalogs:
   postgresql: |
     connector.name=postgresql
-    connection-url=jdbc:postgresql://ec2-3-83-6-11.compute-1.amazonaws.com:5432/postgres
+    connection-url=jdbc:postgresql://34.172.239.100:5432/postgres
     connection-user=postgres
     connection-password=INPUT_POSTGRES_PASSWORD

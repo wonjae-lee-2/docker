@@ -7,6 +7,7 @@ services:
       args:
         PYTHON_VERSION: INPUT_PYTHON_VERSION
         GCLOUD_VERSION: INPUT_GCLOUD_VERSION
+        DOTNET_VERSION: "INPUT_DOTNET_VERSION"
     ports:
       - "8888:8888"
     volumes:
@@ -14,14 +15,14 @@ services:
         source: onedrive
         target: /root/github
       - type: volume
-        source: s3
-        target: /root/s3
-      - type: volume
         source: gcs
         target: /root/gcs
       - type: bind
-        source: /home/ubuntu/keys
-        target: /root/keys
+        source: /home/ubuntu/secret
+        target: /root/secret
+      - type: bind
+        source: /home/ubuntu/dll
+        target: /root/dll
     environment:
       - NAMESPACE=dask
   r:
@@ -40,14 +41,11 @@ services:
         source: onedrive
         target: /home/rstudio/github
       - type: volume
-        source: s3
-        target: /home/rstudio/s3
-      - type: volume
         source: gcs
         target: /home/rstudio/gcs
       - type: bind
-        source: /home/ubuntu/keys
-        target: /home/rstudio/keys
+        source: /home/ubuntu/secret
+        target: /home/rstudio/secret
     environment:
       - NAMESPACE=spark
   julia:
@@ -64,29 +62,65 @@ services:
         source: onedrive
         target: /root/github
       - type: volume
-        source: s3
-        target: /root/s3
-      - type: volume
         source: gcs
         target: /root/gcs
       - type: bind
-        source: /home/ubuntu/keys
-        target: /root/keys
+        source: /home/ubuntu/secret
+        target: /root/secret
     environment:
       - NAMESPACE=julia
+  postgres:
+    image: postgres:INPUT_POSTGRES_VERSION
+    ports:
+      - "5432:5432"
+    volumes:
+      - type: volume
+        source: postgres
+        target: /var/lib/postgresql/data
+      - type: volume
+        source: gcs
+        target: /var/lib/postgresql/gcs
+    environment:
+      - POSTGRES_PASSWORD=INPUT_POSTGRES_PASSWORD
+  trino:
+    image: trinodb/trino:INPUT_TRINO_VERSION
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: volume
+        source: trino_catalog
+        target: /etc/trino/catalog
+      - type: volume
+        source: trino_data
+        target: /data/trino
+      - type: volume
+        source: gcs
+        target: /home/trino/gcs
+    environment:
+      - POSTGRES_PASSWORD=INPUT_POSTGRES_PASSWORD
+  # mysql:
+    # image: mysql:8.0.29
+    # ports:
+      # - "3306:3306"
+    # volumes:
+      # - type: volume
+        # source: mysql
+        # target: /var/lib/mysql
+    # environment:
+      # - MYSQL_ROOT_PASSWORD=PASSWORD_FILE
 volumes:
+  postgres:
+  trino_data:
+  trino_catalog:
+    driver: rclone
+    driver_opts:
+      remote: "onedrive:backup/github/docker/trino/catalog"
   onedrive:
     driver: rclone
     driver_opts:
       remote: "onedrive:backup/github"
-      vfs_cache_mode: full
-  s3:
-    driver: rclone
-    driver_opts:
-      remote: "s3:"
-      vfs_cache_mode: writes
   gcs:
     driver: rclone
     driver_opts:
       remote: "gcs:"
-      vfs_cache_mode: writes
+  # mysql:

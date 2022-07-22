@@ -1,0 +1,9 @@
+{
+    "runtimeOptions": {
+        "tfm": "netINPUT_DOTNET_VERSION",
+        "framework": {
+            "name": "Microsoft.NETCore.App",
+            "version": "INPUT_DOTNET_RUNTIME_VERSION"
+        }
+    }
+}

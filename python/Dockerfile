@@ -3,6 +3,7 @@ ARG PYTHON_VERSION
 FROM python:${PYTHON_VERSION}
 
 ARG GCLOUD_VERSION
+ARG DOTNET_VERSION
 
 ARG HOME=/root
 ARG GCLOUD_FOLDER=${HOME}/gcloud
@@ -21,7 +22,29 @@ RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud
     ln -fs ${GCLOUD_FOLDER}/bin/gcloud /usr/local/bin/gcloud; \
     ln -fs ${GCLOUD_FOLDER}/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
-    echo "bash ${HOME}/keys/gcloud-auth.sh" >> $HOME/.profile
+    echo "bash ${HOME}/secret/gcloud-auth.sh" >> ${HOME}/.profile
+
+COPY runtimeconfig.json runtimeconfig.json
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb; \
+    dpkg -i packages-microsoft-prod.deb; \
+    rm packages-microsoft-prod.deb; \
+    apt update; \
+    apt install --no-install-recommends -y apt-transport-https; \
+    apt update; \
+    apt install --no-install-recommends -y dotnet-sdk-${DOTNET_VERSION}
+
+RUN apt install --no-install-recommends -y \
+        ca-certificates \
+        curl \
+        apt-transport-https \
+        lsb-release \
+        gnupg; \
+    curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null; \
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/azure-cli.list; \
+    apt update; \
+    apt install azure-cli; \
+    echo "az login --allow-no-subscriptions --use-device-code" >> ${HOME}/.profile; \
+    rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8888
 

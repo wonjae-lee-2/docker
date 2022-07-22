@@ -13,7 +13,7 @@ ARG GCLOUD_FOLDER=${HOME}/gcloud
 WORKDIR ${HOME}
 
 RUN apt update; \
-    apt install -y --no-install-recommends openjdk-${JAVA_VERSION}-jre; \
+    apt install --no-install-recommends -y openjdk-${JAVA_VERSION}-jre; \
     wget https://dlcdn.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop3.tgz; \
     mkdir -p ${SPARK_FOLDER}; \
     tar -x -f spark-${SPARK_VERSION}-bin-hadoop3.tgz -C ${SPARK_FOLDER} --strip-components=1; \
@@ -27,7 +27,7 @@ RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud
     su - rstudio -c "${GCLOUD_FOLDER}/bin/gcloud components install kubectl --quiet"; \
     ln -fs ${GCLOUD_FOLDER}/bin/kubectl /usr/local/bin/kubectl; \
     rm google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
-    echo "bash ${HOME}/keys/gcloud-auth.sh" >> ${HOME}/.profile
+    echo "bash ${HOME}/secret/gcloud-auth.sh" >> ${HOME}/.profile
 
 COPY .Rprofile .Rprofile
 COPY renv.lock renv.lock
@@ -39,7 +39,8 @@ RUN apt install -y --no-install-recommends \
         libpq-dev \
         libxml2-dev; \
     chown -R rstudio ${HOME}/renv; \
-    su - rstudio -c "R -e 'renv::restore()'"
+    su - rstudio -c "R -e 'renv::restore()'"; \
+    rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8787
 

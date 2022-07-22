@@ -5,7 +5,7 @@ echo
 read -p "How many workers would you like to create? " NUM_WORKERS
 
 # Copy the SSH private key to the `.ssh` folder.
-cp ~/keys/id_ed25519 ~/.ssh
+cp ~/secret/id_ed25519 ~/.ssh
 
 # Update the `deployment.yml` with the desired numer of workers.
 sed -i "s/replicas:.*$/replicas: ${NUM_WORKERS}/g" deployment.yml

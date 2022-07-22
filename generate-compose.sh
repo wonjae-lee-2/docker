@@ -8,6 +8,10 @@ echo
 echo "Check the latest version of gcloud CLI. https://cloud.google.com/sdk/docs/install-sdk/"
 read -p "Which version of gcloud CLI would you like to include in the Python, R and Julia images? " INPUT_GCLOUD_VERSION
 echo
+echo "Check the latest version of .NET. https://dotnet.microsoft.com/en-us/"
+read -p "Which version of .NET would you like to install? " INPUT_DOTNET_VERSION
+read -p "Which version of .NET runtime would you like to install? " INPUT_DOTNET_RUNTIME_VERSION
+echo
 echo "Check the latest R image. https://hub.docker.com/r/rocker/rstudio"
 read -p "Which version of R would you like to build an image for? " INPUT_R_VERSION
 echo
@@ -25,24 +29,27 @@ echo
 echo "Check the latest Trino image. https://hub.docker.com/r/trinodb/trino"
 read -p "Which version of Trino would you like to build an image for? " INPUT_TRINO_VERSION
 
-# Replace password and software versions in `template-wsl.yml` with environment variables to generate `compose.yml`.
+# Replace password and software versions in `template.yml` with environment variables to generate `compose.yml`.
 sed -e "s/INPUT_PYTHON_VERSION/${INPUT_PYTHON_VERSION}/g" \
     -e "s/INPUT_GCLOUD_VERSION/${INPUT_GCLOUD_VERSION}/g" \
+    -e "s/INPUT_DOTNET_VERSION/${INPUT_DOTNET_VERSION}/g" \
     -e "s/INPUT_R_VERSION/${INPUT_R_VERSION}/g" \
     -e "s/INPUT_SPARK_VERSION/${INPUT_SPARK_VERSION}/g" \
     -e "s/INPUT_JAVA_VERSION/${INPUT_JAVA_VERSION}/g" \
     -e "s/INPUT_JULIA_VERSION/${INPUT_JULIA_VERSION}/g" \
-    template-wsl.yml > compose.yml
-
-# Replace password and software versions in `template-ec2.yml` with environment variables to generate `compose-ec2.yml`.
-sed -e "s/INPUT_POSTGRES_VERSION/${INPUT_POSTGRES_VERSION}/g" \
+    -e "s/INPUT_POSTGRES_VERSION/${INPUT_POSTGRES_VERSION}/g" \
     -e "s/INPUT_POSTGRES_PASSWORD/${INPUT_POSTGRES_PASSWORD}/g" \
     -e "s/INPUT_TRINO_VERSION/${INPUT_TRINO_VERSION}/g" \
-    template-aws.yml > compose-aws.yml
+    template.yml > compose.yml
 
-# Replace password in `template-values.yml` to generate `values.yml`.
+# Replace password in `template-values.yml` to generate `values.yml` in the `trino` subfolder.
 sed -e "s/INPUT_POSTGRES_PASSWORD/${INPUT_POSTGRES_PASSWORD}/g" \
     trino/template-values.yml > trino/values.yml
+
+# Replace versions in `template-runtimeconfig.json` to generate `runtimeconfig.json` in the `python` subfolder.
+sed -e "s/INPUT_DOTNET_VERSION/${INPUT_DOTNET_VERSION}/g" \
+    -e "s/INPUT_DOTNET_RUNTIME_VERSION/${INPUT_DOTNET_RUNTIME_VERSION}/g" \
+    python/template-runtimeconfig.json > python/runtimeconfig.json
 
 # Copy the ssh public key to the julia and julia-worker sub-folder.
 cp ~/.ssh/id_ed25519.pub ~/github/docker/julia
