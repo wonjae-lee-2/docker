@@ -157,3 +157,13 @@ bash trino.sh
 ```Shell
 helm uninstall -n trino trino
 ```
+
+## Troubleshoot Rclone docker plugin
+
+1. Stop all compose jobs and docker containers using the remote
+
+2. Stop the plugin with: docker plugin disable rclone
+
+3. Remove saved plugin state on the host: sudo rm /var/lib/docker-plugins/rclone/cache/docker-plugin.state
+
+4. Start the plugin again: docker plugin enable rclone

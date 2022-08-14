@@ -12,7 +12,9 @@ WORKDIR ${HOME}
 
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -U pip setuptools wheel; \
-    pip install --no-cache-dir -U -r requirements.txt
+    pip install --no-cache-dir -U -r requirements.txt; \
+    playwright install chromium; \
+    playwright install-deps chromium
 
 RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz; \
     mkdir ${GCLOUD_FOLDER}; \
@@ -43,7 +45,7 @@ RUN apt install --no-install-recommends -y \
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/azure-cli.list; \
     apt update; \
     apt install azure-cli; \
-    echo "az login --allow-no-subscriptions --use-device-code" >> ${HOME}/.profile; \
+    echo "AZ_ACCOUNT=$(az account list); if [ ${#AZ_ACCOUNT} -eq 2 ]; then az login --allow-no-subscriptions --use-device-code; fi" >> ${HOME}/.profile; \
     rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8888
