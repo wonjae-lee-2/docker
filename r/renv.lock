@@ -85,10 +85,10 @@
     },
     "R.cache": {
       "Package": "R.cache",
-      "Version": "0.15.0",
+      "Version": "0.16.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "e92a8ea8388c47c82ed8aa435ed3be50",
+      "Hash": "fe539ca3f8efb7410c3ae2cf5fe6c0f8",
       "Requirements": [
         "R.methodsS3",
         "R.oo",
@@ -158,6 +158,22 @@
         "withr"
       ]
     },
+    "RPresto": {
+      "Package": "RPresto",
+      "Version": "1.3.7",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "3b9f92e9e44455482b2e91494796be86",
+      "Requirements": [
+        "DBI",
+        "Rcpp",
+        "httr",
+        "jsonlite",
+        "openssl",
+        "purrr",
+        "stringi"
+      ]
+    },
     "Rcpp": {
       "Package": "Rcpp",
       "Version": "1.0.9",
@@ -165,6 +181,17 @@
       "Repository": "RSPM",
       "Hash": "e9c08b94391e9f3f97355841229124f2",
       "Requirements": []
+    },
+    "RcppEigen": {
+      "Package": "RcppEigen",
+      "Version": "0.3.3.9.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "4c86baed78388ceb06f88e3e9a1d87f5",
+      "Requirements": [
+        "Matrix",
+        "Rcpp"
+      ]
     },
     "SQUAREM": {
       "Package": "SQUAREM",
@@ -627,10 +654,10 @@
     },
     "evaluate": {
       "Package": "evaluate",
-      "Version": "0.15",
+      "Version": "0.16",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "699a7a93d08c962d9f8950b2d7a227f1",
+      "Hash": "9a3d3c345f8a5648abe61608aaa29518",
       "Requirements": []
     },
     "fansi": {
@@ -736,10 +763,10 @@
     },
     "future": {
       "Package": "future",
-      "Version": "1.26.1",
+      "Version": "1.27.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "cd20396d5395828de2e12d60467f6a53",
+      "Hash": "f6811da7bee83f2cef50ee3d21c5c794",
       "Requirements": [
         "digest",
         "globals",
@@ -826,12 +853,27 @@
         "scales"
       ]
     },
-    "globals": {
-      "Package": "globals",
-      "Version": "0.15.1",
+    "glmnet": {
+      "Package": "glmnet",
+      "Version": "4.1-4",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "9449b1dfaf8609db72556cfbe228285d",
+      "Hash": "416617ecd799fe4e352c1fdc2c9e4559",
+      "Requirements": [
+        "Matrix",
+        "Rcpp",
+        "RcppEigen",
+        "foreach",
+        "shape",
+        "survival"
+      ]
+    },
+    "globals": {
+      "Package": "globals",
+      "Version": "0.16.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "2fb246aa501a4fa799448f3984b0c5c1",
       "Requirements": [
         "codetools"
       ]
@@ -1403,10 +1445,10 @@
     },
     "parallelly": {
       "Package": "parallelly",
-      "Version": "1.32.0",
+      "Version": "1.32.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "022489ebce2ef2438db4583fae118240",
+      "Hash": "9e3d8d65cb9c5ca5966340a6bfec60b2",
       "Requirements": []
     },
     "parsnip": {
@@ -1825,10 +1867,10 @@
     },
     "rsample": {
       "Package": "rsample",
-      "Version": "1.0.0",
+      "Version": "1.1.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "d3ef8543c8f3b44990cc122909847087",
+      "Hash": "a795abe9bf46591be70b75b5a64fa736",
       "Requirements": [
         "dplyr",
         "ellipsis",
@@ -1926,6 +1968,14 @@
         "qap",
         "registry"
       ]
+    },
+    "shape": {
+      "Package": "shape",
+      "Version": "1.4.6",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "9067f962730f58b14d8ae54ca885509f",
+      "Requirements": []
     },
     "shiny": {
       "Package": "shiny",
@@ -2082,12 +2132,11 @@
     },
     "tibble": {
       "Package": "tibble",
-      "Version": "3.1.7",
+      "Version": "3.1.8",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "08415af406e3dd75049afef9552e7355",
+      "Hash": "56b6934ef0f8c68225949a8672fe1a8f",
       "Requirements": [
-        "ellipsis",
         "fansi",
         "lifecycle",
         "magrittr",
@@ -2381,10 +2430,10 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.31",
+      "Version": "0.32",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "a318c6f752b8dcfe9fb74d897418ab2b",
+      "Hash": "0498af3034691dde715dcd86198efe75",
       "Requirements": []
     },
     "xml2": {

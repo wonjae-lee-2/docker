@@ -10,6 +10,7 @@ services:
         DOTNET_VERSION: "INPUT_DOTNET_VERSION"
     ports:
       - "8888:8888"
+      - "4200:4200"
     volumes:
       - type: volume
         source: onedrive

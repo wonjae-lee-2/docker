@@ -45,7 +45,7 @@ RUN apt install --no-install-recommends -y \
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/azure-cli.list; \
     apt update; \
     apt install azure-cli; \
-    echo "AZ_ACCOUNT=$(az account list); if [ ${#AZ_ACCOUNT} -eq 2 ]; then az login --allow-no-subscriptions --use-device-code; fi" >> ${HOME}/.profile; \
+    echo 'AZ_ACCOUNT=$(az account list); if [ ${#AZ_ACCOUNT} -eq 2 ]; then az login --allow-no-subscriptions --use-device-code; fi' >> ${HOME}/.profile; \
     rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8888

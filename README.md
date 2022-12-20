@@ -6,7 +6,7 @@
 
 ```Shell
 cd ~/github/docker
-bash generate-compose.sh
+bash prepare.sh
 ```
 
 2. Install the Rclone plugin.
@@ -152,10 +152,44 @@ bash trino.sh
 
 3. Go to `<load-balancer-external-ip>:8080` in the browser of the local machine for the web UI.
 
-4. After use, uninstall the Trino Helm chart to delete all pods.
+4. While installed, type the following to access the Trino CLI.
+
+```Shell
+kubectl exec -n trino -it service/trino -- trino
+```
+
+5. After use, uninstall the Trino Helm chart to delete all pods.
 
 ```Shell
 helm uninstall -n trino trino
+```
+
+## Access the Prefect Orion UI running in a container.
+
+1. Start the Python container.
+
+```Shell
+cd ~/github/docker
+docker compose up -d python
+```
+
+2. Request port-forwarding between the local machine and the spot VM.
+
+```
+Press shift + ` + c, and then -L 4200:localhost:4200
+```
+
+3. Start the Prefect Orion server.
+
+```Shell
+docker compose exec python bash
+prefect orion start --host 0.0.0.0
+```
+
+4. Go to the following addresses in the web browser of the local machine.
+
+```
+localhost:4200
 ```
 
 ## Troubleshoot Rclone docker plugin
